@@ -28,6 +28,8 @@
         {
             get { return _marca.ToUpper(); }
             set { _marca = value; }
+
+            //hola como estan??
         }
 
         internal int Año { get; set; } = 1990;

@@ -30,12 +30,29 @@ namespace Clases.Ejercicios.Ejercicio1
 
     // Aquí puedes crear la clase (Nota: colócala como public)
 
+    public class Persona
+    {
+        public string _nombre;
+        public string _apellido;
+        public DateTime _fechaNacimiento;
 
+       
+    }
 
 
     public class Ejercicio
     {
 
+
+        public Persona ConstrirPersona(string nombre, string apellido, DateTime fechaNacimiento)
+        {
+            var persona1 = new Persona();
+            persona1._nombre = nombre;
+            persona1._apellido = apellido;
+            persona1._fechaNacimiento = fechaNacimiento;
+
+            return persona1;
+        }
     }
 
 }

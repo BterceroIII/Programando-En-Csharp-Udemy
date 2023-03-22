@@ -14,5 +14,24 @@ namespace Clases.Ejercicios.Ejercicio3
         public string Nombre { get; set; }
         public string Apellido { get; set; }
         public DateTime FechaNacimiento { get; set; }
+
+        public bool EsMayorEdad()
+        {
+            var fechaActual = DateTime.Today;
+            var edad = fechaActual.Year - FechaNacimiento.Year;
+
+            var fechaCumple = new DateTime(fechaActual.Year, FechaNacimiento.Month, FechaNacimiento.Day);
+
+            var yaCumpleoAnios = fechaCumple <= fechaActual;
+
+            if (!yaCumpleoAnios)
+            {
+                edad--;
+            }
+
+            var esMayorEdad = edad >= 18;
+
+            return esMayorEdad;
+        }
     }
 }
