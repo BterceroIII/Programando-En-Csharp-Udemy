@@ -47,12 +47,21 @@ namespace Funciones.Ejercicios
 
     public class FuncionesAnonimas
     {
-        /* remueve esta línea para descomentar
+        
         public void ImprimirSumaYMultiplicacion(int a, int b, int veces)
         {
             // Tú codigo va debajo de aquí
 
+            Func<int, int, int> sumar = (x,y) => x + y;
+            Func<int, int, int> multiplicar = (x,y) => x * y;
 
+            Action<int, int, int> imprimir = (resultadoSuma, resultadoResta, n) =>
+            {
+                for (int i = 0; i < n; i++)
+                {
+                    Console.WriteLine($"{resultadoSuma} - {resultadoResta}");
+                }
+            };
 
             // Tú codigo va encima de aquí
 
@@ -60,6 +69,6 @@ namespace Funciones.Ejercicios
             int multiplicacion = multiplicar(a, b);
             imprimir(suma, multiplicacion, veces);
         }
-        */ //<-- remueve esta línea para descomentar
+        
     }
 }

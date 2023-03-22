@@ -18,9 +18,9 @@ namespace Funciones.Ejercicios
 
     public class DeclarandoFunciones
     {
-        public void ObtenerDiaActual()
+        public int ObtenerDiaActual()
         {
-
+            return DateTime.Today.Day;
         }
     }
 }

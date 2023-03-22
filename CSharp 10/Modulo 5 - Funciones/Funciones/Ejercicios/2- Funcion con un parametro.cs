@@ -16,7 +16,9 @@ namespace Funciones.Ejercicios
 
     public class FuncionConParametro
     {
-        // Tu código va debajo de esta línea
-
+        string Saludar(string mensaje)
+        {
+            return $"Hola, {mensaje}";
+        }
     }
 }
