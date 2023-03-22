@@ -11,7 +11,7 @@ namespace Variables.Soluciones
             // Tu código debajo de esta línea
             if (numeros.Length == 0)
             {
-                return null;
+                return null;    
             }
 
             resultado = numeros[0];
