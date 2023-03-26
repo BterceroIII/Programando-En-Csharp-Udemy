@@ -17,16 +17,13 @@ namespace POO
 
         public void GuardarPoster(string poster)
         {
-            // Más código
-            almacenadorArchivos.Guardar(poster);
-            // Más código
+            var almacenamiento = new AlmacenadorArchivosAzure();
+            almacenamiento.Guardar(poster);
         }
 
         public void BorrarPoster(string urlPoster)
         {
-            // Más código
             almacenadorArchivos.Borrar(urlPoster);
-            // Más código
         }
     }
 }

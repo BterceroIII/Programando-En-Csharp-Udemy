@@ -10,70 +10,63 @@ namespace POO
     {
         void MiMetodo1();
         string MiMetodo2(int param1);
-        void MiMetodo3();
         bool MiPropiedad1 { get; set; }
         int MiPropiedadDeSoloLectura { get; }
     }
 
-    internal interface IMiSegundaInterfaz
+    internal interface SegundaInterface
     {
-        void MiMetodoDeLaSegundaInterfaz();
+        void MetodoSegundaInterfasz();
     }
 
-    internal class ClaseA : IMiSegundaInterfaz
+    internal class ClaseA : SegundaInterface
     {
-        public void MiMetodoDeLaSegundaInterfaz()
+        public void MetodoSegundaInterfasz()
         {
-            Console.WriteLine("Implementación de la clase A");
+            Console.WriteLine("Implementacion de la clase A");
+        }
+    } 
+    internal class ClaseB : SegundaInterface
+    {
+        public void MetodoSegundaInterfasz()
+        {
+            Console.WriteLine("Implementacion de la clase B");
         }
     }
 
-    internal class ClaseB : IMiSegundaInterfaz
-    {
-        public void MiMetodoDeLaSegundaInterfaz()
-        {
-            Console.WriteLine("Implementación de la clase B");
-        }
-    }
-
-
-    internal class MiClase : IMiInterfaz, IMiSegundaInterfaz
+    internal class MiClase : IMiInterfaz, SegundaInterface
     {
         public bool MiPropiedad1 { get; set; }
 
         public int MiPropiedadDeSoloLectura => 42;
 
+        public void MetodoSegundaInterfasz()
+        {
+
+        }
+
         public void MiMetodo1()
         {
+            
         }
 
         public string MiMetodo2(int param1)
         {
             return "Ejemplo";
         }
+    }
 
-        public void MiMetodo3()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void MiMetodoDeLaSegundaInterfaz()
+    public record MiRecord(string param1) : SegundaInterface
+    {
+        public void MetodoSegundaInterfasz()
         {
             throw new NotImplementedException();
         }
     }
 
-    public record MiRecord(string param1) : IMiSegundaInterfaz
+    public struct Mistruc : SegundaInterface
     {
-        public void MiMetodoDeLaSegundaInterfaz()
-        {
-            throw new NotImplementedException();
-        }
-    }
-
-    public struct MiStruct : IMiSegundaInterfaz
-    {
-        public void MiMetodoDeLaSegundaInterfaz()
+        public void MetodoSegundaInterfasz()
         {
             throw new NotImplementedException();
         }
