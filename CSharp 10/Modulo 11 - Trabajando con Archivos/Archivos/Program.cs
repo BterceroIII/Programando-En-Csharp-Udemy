@@ -1,20 +1,28 @@
-﻿var ruta = @"F:\Documentos\REPOSITORIOS\.NET\Curso_CSharp\Programando-En-Csharp-Udemy\CSharp 10\Modulo 11 - Trabajando con Archivos\Archivos\ejemplo.txt";
+﻿var rutaEjemplo = @"F:\Documentos\REPOSITORIOS\.NET\Curso_CSharp\Programando-En-Csharp-Udemy\CSharp 10\Modulo 11 - Trabajando con Archivos\Archivos";
 
-var rutaDestino = @"F:\Documentos\REPOSITORIOS\.NET\Curso_CSharp\Programando-En-Csharp-Udemy\CSharp 10\Modulo 11 - Trabajando con Archivos\Archivos\ejemplo copiado.txt";
+//Directory.CreateDirectory(ruta); // crea un directorio
 
-if (File.Exists(ruta))
+// crea un enumerable de strings que contiene todas las carpetas del directorio
+//var rutas = Directory.EnumerateDirectories(rutaEjemplo);
+//var rutas = Directory.EnumerateDirectories(rutaEjemplo, "*", SearchOption.AllDirectories);
+
+//var rutas = Directory.EnumerateFiles(rutaEjemplo, "*", SearchOption.AllDirectories);
+var rutas = Directory.EnumerateFiles(rutaEjemplo, "*.json", SearchOption.AllDirectories);
+
+foreach (var ruta in rutas)
 {
-    var contenido = File.ReadAllText(ruta); // lee el archivo
-    Console.WriteLine(contenido);
-    // copia el archivo y lo sobre escribe
-    File.Copy(ruta, rutaDestino, overwrite: true);
+    Console.WriteLine(ruta);
+}
+
+var rutaBorrar = @"F:\Documentos\REPOSITORIOS\.NET\Curso_CSharp\Programando-En-Csharp-Udemy\CSharp 10\Modulo 11 - Trabajando con Archivos\Archivos\Mi Directorio 2\sub directorio";
+
+
+if (Directory.Exists(rutaBorrar))
+{
+    Directory.Delete(rutaBorrar);
+    Console.WriteLine("Se ha borrado el directorio");
 }
 else
 {
-    Console.WriteLine("No existe el archivo");
+    Console.WriteLine("No se borro nada");
 }
-
-// elemina el archivo destino
-File.Delete(rutaDestino);
-
-Console.WriteLine();
