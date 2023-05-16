@@ -2,7 +2,7 @@
 using Archivos;
 using System.Text;
 
-var ruta = @"F:\Documentos\REPOSITORIOS\.NET\Curso_CSharp\Programando-En-Csharp-Udemy\CSharp 10\Modulo 11 - Trabajando con Archivos\Archivos\personas.txt";
+var ruta = @"F:\Documentos\REPOSITORIOS\.NET\Curso_CSharp\Programando-En-Csharp-Udemy\CSharp 10\Modulo 11 - Trabajando con Archivos\Archivos\personas.csv";
 
 
 var personas = new List<Persona>
@@ -14,35 +14,16 @@ var personas = new List<Persona>
     new Persona(){Id = 5, Nombre = "Arturo Aristy", Salario = 50m},
 };
 
-// String Builder
+// crear un CSV
 
-var stringBuilder = new StringBuilder();
+var stringBuilder =  new StringBuilder();
 
-//foreach (var persona in personas)
-//{
-//    stringBuilder.AppendLine($"{persona.Nombre}|{persona.Salario}");
-//}
-
-//Posiciones de los caracteres
-//foreach (var persona in personas)
-//{
-//    stringBuilder.AppendLine
-//        ($"{persona.Id.ToString().PadLeft(10)}|{persona.Nombre.PadLeft(75)}|{persona.Salario.ToString().PadLeft(10)}");
-//}
-
-
-// modifica los espacios por '0' y hace un remplazo en el decimal
 foreach (var persona in personas)
 {
-    var id = persona.Id.ToString().PadLeft(10, '0');
-    var nombre = persona.Nombre.PadLeft(75);
-    var salario = persona.Salario.ToString("N2").Replace(".", "").PadLeft(10, '0');
-
-    stringBuilder.AppendLine($"{id}|{nombre}|{salario}");
+    stringBuilder.AppendLine($"{persona.Id},{persona.Nombre},{persona.Salario}");
 }
 
-using (var sw = new StreamWriter(ruta, append: false))
+using (var sw = new StreamWriter(ruta, append: false, Encoding.UTF8))
 {
-    sw.Write(stringBuilder.ToString());
-
+    sw.WriteLine(stringBuilder.ToString());
 }
