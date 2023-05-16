@@ -1,18 +1,16 @@
-﻿var rutaEjemplo = @"F:\Documentos\REPOSITORIOS\.NET\Curso_CSharp\Programando-En-Csharp-Udemy\CSharp 10\Modulo 11 - Trabajando con Archivos\Archivos\";
+﻿// streams Writer
+var ruta = @"F:\Documentos\REPOSITORIOS\.NET\Curso_CSharp\Programando-En-Csharp-Udemy\CSharp 10\Modulo 11 - Trabajando con Archivos\Archivos\mensaje.txt";
 
-var rutas = Directory.EnumerateDirectories(rutaEjemplo, "*", SearchOption.AllDirectories);
 
-foreach (var ruta in rutas)
+// using como alternativa com dispose
+using (var streamWriter = new StreamWriter(ruta, append: true)) 
 {
-    var nombreArchivo = Path.GetFileName(ruta); // obtiene la nombre de la ruta
-    var extension = Path.GetExtension(ruta); // obtiene la extension  de los archivos
-    Console.WriteLine($"{nombreArchivo} - extension: {extension}");
-}
+    streamWriter.WriteLine("Buenos dias");
+    streamWriter.Write("En esta carta");
+    streamWriter.WriteLine($"te informo que la hora es {DateTime.Now.ToString("hh:mm:ss")}");
+    streamWriter.Write("bye");
 
-//combinar rutas
+}// append se va indexar abajo del archivo
 
-var ruta1 = @"C:\user\source";
-var ruta2 = @"repos\archivos";
 
-var rutasCombinadas = Path.Combine(ruta1, ruta2);
-Console.WriteLine(rutasCombinadas);
+
