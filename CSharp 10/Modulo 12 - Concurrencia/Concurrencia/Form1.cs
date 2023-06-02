@@ -14,24 +14,49 @@ namespace Concurrencia
         {
             pictureBox1.Visible = true;
 
-            await RealizarProcesoLargo();
+            var sw = new Stopwatch();
 
-            var nombre = await ObtenerNombre();
+            sw.Start();
 
-            MessageBox.Show($"Hola, {nombre}");
+            // esto hace los procesos uno por uno
+            //await RealizarProcesoLargoA();
+            //await RealizarProcesoLargoB();
+            //await RealizarProcesoLargoC();
 
+            // aqui hace los procesos al mismo tiempo
+            var tareas = new List<Task>()
+            {
+                 RealizarProcesoLargoA(),
+                 RealizarProcesoLargoB(),
+                 RealizarProcesoLargoC()
+            };
+            // WhenAll procesa las tareas al mismo tiempo
+            await Task.WhenAll(tareas);
+
+            sw.Stop();
+
+            var duracion = $"El programa se ejecuto en {sw.ElapsedMilliseconds / 100.0} segundos";
+            Console.Write(duracion);
             pictureBox1.Visible = false;
         }
 
-        private async Task RealizarProcesoLargo()
+        private async Task RealizarProcesoLargoA()
         {
             await Task.Delay(500);
+            Console.WriteLine("Proceso A finalizado");
         }
 
-        private async Task<string> ObtenerNombre()
+        private async Task RealizarProcesoLargoB()
         {
-            await Task.Delay(100);
-            return "Byron";
+            await Task.Delay(500);
+            Console.WriteLine("Proceso B finalizado");
         }
+
+        private async Task RealizarProcesoLargoC()
+        {
+            await Task.Delay(500);
+            Console.WriteLine("Proceso C finalizado");
+        }
+
     }
 }
