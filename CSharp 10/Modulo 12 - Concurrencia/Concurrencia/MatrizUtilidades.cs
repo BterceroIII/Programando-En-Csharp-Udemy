@@ -8,25 +8,25 @@ namespace Concurrencia
 {
     internal class MatrizUtilidades
     {
-        public static void MultiplicarMatricesSecuencial(double[,] matA,
-            double[,] matB, double[,] resultado)
+       
+        public static void MultiplicarMatricesSecuencial(double[,] matA, double[,] matB, double[,] resultado)
         {
-            int matAColumnas = matA.GetLength(1);
-            int matBColumnas = matB.GetLength(1);
-            int matAFilas = matA.GetLength(0);
+            int matAcolumnas = matA.GetLength(1);
+            int matbcolumnas = matB.GetLength(1);
+            int matFilas = matA.GetLength(0);
 
-            for (int i = 0; i < matAFilas; i++)
+            for (int  i = 0; i < matFilas; i++)
             {
-                for (int j = 0; j < matBColumnas; j++)
+                for (int j = 0; j < matAcolumnas; j++)
                 {
                     double temp = 0;
 
-                    for (int k = 0; k < matAColumnas; k++)
+                    for (int k = 0; k < matAcolumnas; k++)
                     {
-                        temp += matA[i, k] * matB[k, j];
+                        temp = matFilas[i,k] * matB[j,k];
                     }
 
-                    resultado[i, j] = temp;
+                    resultado[i,j] = temp;
                 }
             }
         }
@@ -44,7 +44,7 @@ namespace Concurrencia
                 {
                     double temp = 0;
 
-                    for (int k = 0; k < matAColumnas; k++)
+                   for (int k = 0; k < matAColumnas; k++)
                     {
                         temp += matA[i, k] * matB[k, j];
                     }
