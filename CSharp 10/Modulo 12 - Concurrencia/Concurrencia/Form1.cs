@@ -10,48 +10,21 @@ namespace Concurrencia
         }
 
 
-        private async void button1_Click(object sender, EventArgs e)
+        private  void button1_Click(object sender, EventArgs e)
         {
-            //pictureBox1.Visible = true;
+            Console.WriteLine("Inicio");
 
-            int conteoColumnas = 1080;
-            int conteoFilas = 1000;
-            int conteoColumnas2 = 750;
+            var valorSinInterlock = 0;
 
-            double[,] m1 = MatrizUtilidades.InicializarMatriz(conteoFilas, conteoColumnas);
-            double[,] m2 = MatrizUtilidades.InicializarMatriz(conteoColumnas, conteoColumnas2);
-            double[,] resultado = new double[conteoFilas, conteoColumnas2];
+            Parallel.For(0, 1000000, numero => valorSinInterlock++);
 
-            Console.WriteLine("Ejecutando versión secuencial ...");
+            Console.WriteLine($"La sumatoria es de {valorSinInterlock}");
 
-            Stopwatch stopwatch = new Stopwatch();
-            stopwatch.Start();
+            var valorConInterlock = 0;
 
-            await Task.Run(() =>
-            {
-                MatrizUtilidades.MultiplicarMatricesSecuencial(m1, m2, resultado);
-            });
+            Parallel.For(0, 1000000, numero => Interlocked.Increment(ref valorConInterlock));
 
-            stopwatch.Stop();
-            Console.WriteLine("Duración en segundos de la versión secuencial: {0}",
-                                    stopwatch.ElapsedMilliseconds / 1000.0);
-
-            resultado = new double[conteoFilas, conteoColumnas2];
-
-            Console.WriteLine("Ejecutando la versión en paralelo");
-            stopwatch.Reset();
-            stopwatch.Start();
-            await Task.Run(() =>
-            {
-                MatrizUtilidades.MultiplicarMatricesParalelo(m1, m2, resultado);
-            });
-
-            stopwatch.Stop();
-            Console.WriteLine("Duración en segundos de la versión en paralelo: {0}",
-                                    stopwatch.ElapsedMilliseconds / 1000.0);
-
-
-            //pictureBox1.Visible = false;
+            Console.WriteLine($"La sumatoria es de {valorConInterlock}");
         }
 
 

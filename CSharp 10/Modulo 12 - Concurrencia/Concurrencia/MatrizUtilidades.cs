@@ -23,7 +23,7 @@ namespace Concurrencia
 
                     for (int k = 0; k < matAcolumnas; k++)
                     {
-                        temp = matFilas[i,k] * matB[j,k];
+                        temp = matA[i, k] * matB[j, k];
                     }
 
                     resultado[i,j] = temp;
