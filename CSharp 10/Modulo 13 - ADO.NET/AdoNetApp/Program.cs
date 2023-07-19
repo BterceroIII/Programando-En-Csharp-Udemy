@@ -5,4 +5,5 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Data;
 
-// Puedes ver el código del curso en la carpeta "Codigo".
+var conexionString = "Data Source=BTERCERO//SQLEXPRESS;Database=AdoNet;Integrated Security=True";
+

@@ -15,7 +15,8 @@ namespace Concurrencia
             Console.WriteLine("Inicio");
             var valorConInterlocked = 0;
             var valorConInterlocked2 = 0;
-
+            var elemtent = 0;
+         
             Parallel.For(0, 10_000, numero =>
             {
                 Interlocked.Increment(ref valorConInterlocked);
