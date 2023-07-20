@@ -3,10 +3,14 @@ using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System.Data;
+
+//Utilizando proveedores de configuracion
+using IHost host = Host.CreateDefaultBuilder(args).Build();
+
+var configuration = host.Services.GetService<IConfiguration>();
 
 //Variable de conexion
-var conexionString = "Data Source=BTERCERO\\SQLEXPRESS;Database=AdoNet;Integrated Security=True;TrustServerCertificate=True";
+var conexionString = configuration.GetConnectionString("cadenaDeConexion");
 
 //Estableciendo conexion
 try
@@ -16,10 +20,25 @@ try
 		//abrimos la conexion
 		conexion.Open();
         Console.WriteLine("===========Conexion Abierta===========");
+        Console.WriteLine();
+        var query = @"INSERT INTO Persona(Nombre)
+                                    VALUES(@nombre)";
+
+        using (SqlCommand comand = new SqlCommand(query, conexion))
+        {
+            comand.Parameters.Add(new SqlParameter("@nombre","Vicente Tercero"));
+            var filasAfectadas = await comand.ExecuteNonQueryAsync();
+            Console.WriteLine($"Filas afectadas: {filasAfectadas}");
+        }
     }
 }
 catch (Exception ex)
 {
     Console.WriteLine("Conexion fallida");
     Console.WriteLine(ex.Message);
+    if (ex.InnerException != null)
+    {
+        Console.WriteLine("Inner Exception:");
+        Console.WriteLine(ex.InnerException.Message);
+    }
 }
