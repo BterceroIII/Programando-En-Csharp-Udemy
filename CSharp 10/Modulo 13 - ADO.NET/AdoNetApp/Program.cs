@@ -12,6 +12,9 @@ var configuration = host.Services.GetService<IConfiguration>();
 //Variable de conexion
 var conexionString = configuration.GetConnectionString("cadenaDeConexion");
 
+Console.WriteLine("Escribe un nombre que quieres guardar: ");
+var nombre = Console.ReadLine();
+
 //Estableciendo conexion
 try
 {
@@ -26,7 +29,7 @@ try
 
         using (SqlCommand comand = new SqlCommand(query, conexion))
         {
-            comand.Parameters.Add(new SqlParameter("@nombre","Vicente Tercero"));
+            comand.Parameters.Add(new SqlParameter("@nombre",nombre));
             var filasAfectadas = await comand.ExecuteNonQueryAsync();
             Console.WriteLine($"Filas afectadas: {filasAfectadas}");
         }
