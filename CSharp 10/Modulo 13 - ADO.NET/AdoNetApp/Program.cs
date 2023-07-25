@@ -24,12 +24,20 @@ try
 		conexion.Open();
         Console.WriteLine("===========Conexion Abierta===========");
         Console.WriteLine();
-        var query = "SELECT COUNT(*) FROM Persona";
+        var query = "SELECT * FROM Persona";
 
         using (SqlCommand comand = new SqlCommand(query, conexion))
         {
-            var cantidadRegistro = await comand.ExecuteScalarAsync();
-            Console.WriteLine($"Cantidad de registro {cantidadRegistro}");
+            using (SqlDataAdapter adapter = new SqlDataAdapter(comand))
+            {
+                var dt = new DataTable();
+                adapter.Fill(dt);
+
+                foreach (DataRow fila in dt.Rows)
+                {
+                    Console.WriteLine($"{fila["IdPersona"]} | {fila["Nombre"]}");
+                }
+            }
         }
     }
 }
