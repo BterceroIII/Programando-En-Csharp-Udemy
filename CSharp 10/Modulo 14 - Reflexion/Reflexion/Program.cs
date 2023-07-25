@@ -16,3 +16,10 @@ Type tipoDatoEdad = edad.GetType();
 Type tipoDatoString = Type.GetType("System.Int32")!;
 //uso de propiedades de Type Name y Type IsArray dara un resultado boleano
 Console.WriteLine($"Es {tipoDatoString.Name} un Array? {tipoDatoString.IsArray}");
+
+Console.WriteLine($"El valor maximo de un entero es (sin reflexion) {int.MaxValue}");
+
+
+// GetField obtiene el campo de un tipo en este caso valor para obtener su maximo valor
+var valor = tipo.GetField("MaxValue")!.GetValue(default(int));
+Console.WriteLine($"El valor maximo de un entero es (con reflexion) {valor}");
