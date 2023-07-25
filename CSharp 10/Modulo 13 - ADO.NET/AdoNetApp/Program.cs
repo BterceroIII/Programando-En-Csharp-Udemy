@@ -3,6 +3,8 @@ using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System.Data;
+using System.Reflection.Metadata;
 
 //Utilizando proveedores de configuracion
 using IHost host = Host.CreateDefaultBuilder(args).Build();
@@ -24,14 +26,26 @@ try
 		conexion.Open();
         Console.WriteLine("===========Conexion Abierta===========");
         Console.WriteLine();
-        var query = @"INSERT INTO Persona(Nombre)
-                                    VALUES(@nombre)";
+        var query = "Personas_Insertar";
 
         using (SqlCommand comand = new SqlCommand(query, conexion))
         {
+            comand.CommandType = CommandType.StoredProcedure;
             comand.Parameters.Add(new SqlParameter("@nombre",nombre));
+            var parametroId = new SqlParameter
+            {
+                ParameterName = "@id",
+                Direction = ParameterDirection.Output,
+                DbType = DbType.Int32,
+            };
+
+            comand.Parameters.Add(parametroId);
+
             var filasAfectadas = await comand.ExecuteNonQueryAsync();
             Console.WriteLine($"Filas afectadas: {filasAfectadas}");
+
+            var id = (int)parametroId.Value;
+            Console.WriteLine($"El ID de la persona es {id}");
         }
     }
 }
