@@ -24,19 +24,29 @@ try
 		conexion.Open();
         Console.WriteLine("===========Conexion Abierta===========");
         Console.WriteLine();
-        var query = "Personas_Leer";
+        var query = "Productos_Leer";
 
         using (SqlCommand comand = new SqlCommand(query, conexion))
         {
             comand.CommandType = CommandType.StoredProcedure;
             using (SqlDataAdapter adapter = new SqlDataAdapter(comand))
             {
-                var dt = new DataTable();
-                adapter.Fill(dt);
+                var dss = new DataSet();
+                adapter.Fill(dss);
 
-                foreach (DataRow fila in dt.Rows)
+                var tablePersona = dss.Tables[0];
+                var tableProducto = dss.Tables[1];
+
+                Console.WriteLine("=== TABLA PERSONA ===");
+                foreach (DataRow fila in tablePersona.Rows)
                 {
                     Console.WriteLine($"{fila["IdPersona"]} | {fila["Nombre"]}");
+                }
+
+                Console.WriteLine("=== TABLA PRODUCTO ===");
+                foreach (DataRow fila in tableProducto.Rows)
+                {
+                    Console.WriteLine($"{fila["IdProducto"]} | {fila["Nombre"]} | {fila["Precio"]}");
                 }
             }
         }
