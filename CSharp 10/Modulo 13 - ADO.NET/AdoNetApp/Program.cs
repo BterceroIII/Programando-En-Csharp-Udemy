@@ -24,10 +24,11 @@ try
 		conexion.Open();
         Console.WriteLine("===========Conexion Abierta===========");
         Console.WriteLine();
-        var query = "SELECT * FROM Persona";
+        var query = "Personas_Leer";
 
         using (SqlCommand comand = new SqlCommand(query, conexion))
         {
+            comand.CommandType = CommandType.StoredProcedure;
             using (SqlDataAdapter adapter = new SqlDataAdapter(comand))
             {
                 var dt = new DataTable();
