@@ -14,8 +14,6 @@ var configuration = host.Services.GetService<IConfiguration>();
 //Variable de conexion
 var conexionString = configuration.GetConnectionString("cadenaDeConexion");
 
-Console.WriteLine("Escribe un nombre que quieres guardar: ");
-var nombre = Console.ReadLine();
 
 //Estableciendo conexion
 try
@@ -26,26 +24,12 @@ try
 		conexion.Open();
         Console.WriteLine("===========Conexion Abierta===========");
         Console.WriteLine();
-        var query = "Personas_Insertar";
+        var query = "SELECT COUNT(*) FROM Persona";
 
         using (SqlCommand comand = new SqlCommand(query, conexion))
         {
-            comand.CommandType = CommandType.StoredProcedure;
-            comand.Parameters.Add(new SqlParameter("@nombre",nombre));
-            var parametroId = new SqlParameter
-            {
-                ParameterName = "@id",
-                Direction = ParameterDirection.Output,
-                DbType = DbType.Int32,
-            };
-
-            comand.Parameters.Add(parametroId);
-
-            var filasAfectadas = await comand.ExecuteNonQueryAsync();
-            Console.WriteLine($"Filas afectadas: {filasAfectadas}");
-
-            var id = (int)parametroId.Value;
-            Console.WriteLine($"El ID de la persona es {id}");
+            var cantidadRegistro = await comand.ExecuteScalarAsync();
+            Console.WriteLine($"Cantidad de registro {cantidadRegistro}");
         }
     }
 }
