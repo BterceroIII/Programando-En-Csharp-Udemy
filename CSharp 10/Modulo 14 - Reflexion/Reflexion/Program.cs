@@ -5,21 +5,26 @@ using System.ComponentModel.DataAnnotations;
 using System.Dynamic;
 using System.Reflection;
 
-// Crear una variable de tipo Type
-Type tipo = typeof(int);
+// Ejemplo 1: instanciando una clase por el tipo
 
-// a partir de un entero creo una variable Type
-int edad = 99;
-Type tipoDatoEdad = edad.GetType();
+Type tipo = typeof(Producto);
+var personasSinNombreViaType = (Producto)Activator.CreateInstance(tipo)!;
 
-// crear variable type con un string
-Type tipoDatoString = Type.GetType("System.Int32")!;
-//uso de propiedades de Type Name y Type IsArray dara un resultado boleano
-Console.WriteLine($"Es {tipoDatoString.Name} un Array? {tipoDatoString.IsArray}");
+Console.WriteLine($"Productos instanciados por el type {personasSinNombreViaType}");
 
-Console.WriteLine($"El valor maximo de un entero es (sin reflexion) {int.MaxValue}");
+// Ejemplo 2: Intanciando una clase por su nombre y assembly
 
+var nombreCompletoClaseProducto = typeof(Producto).FullName;
+var assmblyClaseProducto = typeof(Producto).Assembly.GetName().Name;
 
-// GetField obtiene el campo de un tipo en este caso valor para obtener su maximo valor
-var valor = tipo.GetField("MaxValue")!.GetValue(default(int));
-Console.WriteLine($"El valor maximo de un entero es (con reflexion) {valor}");
+var productoSinNombreString = (Producto)Activator.
+    CreateInstance(assmblyClaseProducto, nombreCompletoClaseProducto)!.Unwrap()!;
+
+Console.WriteLine($"Producto instanciada por un string {productoSinNombreString}");
+
+// Ejemplo 3: Intanciando una clase pasandole valores al constructor
+
+var productoConNombreType = (Persona)Activator.CreateInstance(typeof(Persona), 
+    new object[] { "Byron Tercero" })!;
+
+Console.WriteLine($"El nombre del producto es {productoConNombreType.Nombre}");
