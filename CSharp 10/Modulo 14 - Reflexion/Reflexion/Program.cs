@@ -6,33 +6,28 @@ using System.Dynamic;
 using System.Net.Http.Headers;
 using System.Reflection;
 
-//Ejemplo 1: invocando un metodo void sin parametros
+//Ejemplo 1: Obteniendo un tipo base
 
-var tipo = typeof(Utilidades);
-var utilidades = Activator.CreateInstance(tipo);
+var tipoBaseString = typeof(string).BaseType; 
+var tipoBaseCarro = typeof(Carro).BaseType;
 
+Console.WriteLine($"La clase base de string es {tipoBaseString}");
+Console.WriteLine($"La clase base de carro es {tipoBaseCarro}");
 
-tipo.InvokeMember("ImprimirHoraActual", BindingFlags.InvokeMethod,
-     binder: null, target: utilidades, args: new object[] { });
+//Ejemplo 2: Obteniendo las interfaces  de un tipo
 
-//Ejemplo 2: Invocando un metodo void con parametros
+Console.WriteLine("Las interfaces son: ");
 
-tipo.InvokeMember("ImprimirMensaje", BindingFlags.InvokeMethod,
-     binder: null, target: utilidades, args: new object[] { "Uso del metodo" });
+foreach (var interfaz in typeof(string).GetInterfaces())
+{
+    Console.WriteLine($"- {interfaz}");
+}
 
-//Ejemplo 3: Invocnado un metodo que devuelve un valor
+//Ejemplo 3: Viendo si un tipo hereda  de un interfaz o clase
 
-var resultado = tipo.InvokeMember("ObteniendoUnValor", BindingFlags.InvokeMethod,
-    binder: null, target: utilidades, args: new object[] { });
+var tipoString = typeof(string);
+var tipoIEnumerable = typeof(IEnumerable);
 
-Console.WriteLine($"El resultado del metodo es: {resultado}");
+Console.WriteLine($"String hereda de IEnumerable? R: {tipoString.IsAssignableTo(tipoIEnumerable)}");
 
-//Ejemplo 4: Invocando un metodo estatico
-
-tipo.InvokeMember("MetodoEstatico", BindingFlags.InvokeMethod,
-    binder: null, target: null, args: new object[] { });
-
-//Ejemplo 5: Invocando un metodo etatico void privado
-
-tipo.InvokeMember("MetodoPrivado", BindingFlags.InvokeMethod | BindingFlags.NonPublic | BindingFlags.Instance,
-    binder: null, target: utilidades, args: new object[] { });
+Console.WriteLine($"Carro hereda de Vehiculo? R: {typeof(Carro).IsAssignableTo(typeof(Vehiculo))}");
