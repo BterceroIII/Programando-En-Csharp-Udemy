@@ -3,28 +3,36 @@ using Reflexion;
 using System.Collections;
 using System.ComponentModel.DataAnnotations;
 using System.Dynamic;
+using System.Net.Http.Headers;
 using System.Reflection;
 
-// Ejemplo 1: instanciando una clase por el tipo
+//Ejemplo 1: invocando un metodo void sin parametros
 
-Type tipo = typeof(Producto);
-var personasSinNombreViaType = (Producto)Activator.CreateInstance(tipo)!;
+var tipo = typeof(Utilidades);
+var utilidades = Activator.CreateInstance(tipo);
 
-Console.WriteLine($"Productos instanciados por el type {personasSinNombreViaType}");
 
-// Ejemplo 2: Intanciando una clase por su nombre y assembly
+tipo.InvokeMember("ImprimirHoraActual", BindingFlags.InvokeMethod,
+     binder: null, target: utilidades, args: new object[] { });
 
-var nombreCompletoClaseProducto = typeof(Producto).FullName;
-var assmblyClaseProducto = typeof(Producto).Assembly.GetName().Name;
+//Ejemplo 2: Invocando un metodo void con parametros
 
-var productoSinNombreString = (Producto)Activator.
-    CreateInstance(assmblyClaseProducto, nombreCompletoClaseProducto)!.Unwrap()!;
+tipo.InvokeMember("ImprimirMensaje", BindingFlags.InvokeMethod,
+     binder: null, target: utilidades, args: new object[] { "Uso del metodo" });
 
-Console.WriteLine($"Producto instanciada por un string {productoSinNombreString}");
+//Ejemplo 3: Invocnado un metodo que devuelve un valor
 
-// Ejemplo 3: Intanciando una clase pasandole valores al constructor
+var resultado = tipo.InvokeMember("ObteniendoUnValor", BindingFlags.InvokeMethod,
+    binder: null, target: utilidades, args: new object[] { });
 
-var productoConNombreType = (Persona)Activator.CreateInstance(typeof(Persona), 
-    new object[] { "Byron Tercero" })!;
+Console.WriteLine($"El resultado del metodo es: {resultado}");
 
-Console.WriteLine($"El nombre del producto es {productoConNombreType.Nombre}");
+//Ejemplo 4: Invocando un metodo estatico
+
+tipo.InvokeMember("MetodoEstatico", BindingFlags.InvokeMethod,
+    binder: null, target: null, args: new object[] { });
+
+//Ejemplo 5: Invocando un metodo etatico void privado
+
+tipo.InvokeMember("MetodoPrivado", BindingFlags.InvokeMethod | BindingFlags.NonPublic | BindingFlags.Instance,
+    binder: null, target: utilidades, args: new object[] { });
