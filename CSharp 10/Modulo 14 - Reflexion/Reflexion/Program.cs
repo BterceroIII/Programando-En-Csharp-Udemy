@@ -6,28 +6,33 @@ using System.Dynamic;
 using System.Net.Http.Headers;
 using System.Reflection;
 
-//Ejemplo 1: Obteniendo un tipo base
+var producto = new Producto();
 
-var tipoBaseString = typeof(string).BaseType; 
-var tipoBaseCarro = typeof(Carro).BaseType;
+producto.Modelo = 1;
 
-Console.WriteLine($"La clase base de string es {tipoBaseString}");
-Console.WriteLine($"La clase base de carro es {tipoBaseCarro}");
+var esValido = ValidarProducto(producto);
 
-//Ejemplo 2: Obteniendo las interfaces  de un tipo
-
-Console.WriteLine("Las interfaces son: ");
-
-foreach (var interfaz in typeof(string).GetInterfaces())
+if (!esValido)
 {
-    Console.WriteLine($"- {interfaz}");
+    Console.WriteLine("No tiene un modelo correcto");
+    return;
 }
 
-//Ejemplo 3: Viendo si un tipo hereda  de un interfaz o clase
+Console.WriteLine($"El modelo del producto es: {producto.Modelo}");
 
-var tipoString = typeof(string);
-var tipoIEnumerable = typeof(IEnumerable);
 
-Console.WriteLine($"String hereda de IEnumerable? R: {tipoString.IsAssignableTo(tipoIEnumerable)}");
+bool ValidarProducto (Producto p)
+{
+    var tipo = p.GetType();
 
-Console.WriteLine($"Carro hereda de Vehiculo? R: {typeof(Carro).IsAssignableTo(typeof(Vehiculo))}");
+    var propiedadModelo = tipo.GetProperty("Modelo");
+
+    if (propiedadModelo.IsDefined(typeof(RangeAttribute)))
+    {
+        var atributoRange = (RangeAttribute)Attribute.GetCustomAttribute(propiedadModelo, typeof(RangeAttribute))!;
+
+        return p.Modelo >= (int)atributoRange.Minimum && p.Modelo <= (int)atributoRange.Maximum;
+    }
+
+    return true;
+}
