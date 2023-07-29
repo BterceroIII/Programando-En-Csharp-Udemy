@@ -2,48 +2,24 @@
 using System.ComponentModel.DataAnnotations;
 using System.Reflection;
 
-var producto = new Producto();
-producto.Modelo = 66;
+// Atributos personalizados
 
-var errores = validarObjeto(producto);
+Console.WriteLine($"--Puedes realizar las siguientes acciones--");
 
-if (errores.Any())
+foreach (var accion in Enum.GetValues<Acciones>())
 {
-    Console.WriteLine("El producto no tiene los datos correctos");
+    var campo = typeof(Acciones).GetField(accion.ToString());
+    var esconderAtributo = campo.GetCustomAttribute(typeof(EsconderAttribute));
 
-    foreach (var error in errores)
+    if (esconderAtributo is not null)
     {
-        Console.WriteLine($"- Propiedad: {error.Propiedad}; Mensaje:" +
-            $"{error.MensajeDeError}");
-    }
-}
+        var esconder = ((EsconderAttribute)esconderAtributo).Ocultar();
 
-IEnumerable<ErrorValidacion> validarObjeto( object obj)
-{
-    var t = obj.GetType();
-    var propiedades = t.GetProperties();
-    var resultado = new List<ErrorValidacion>();
-
-    foreach (var propiedad in propiedades)
-    {
-        if (propiedad.IsDefined(typeof(RangeAttribute)))
+        if (esconder)
         {
-            var atributoRange = (RangeAttribute)Attribute
-                .GetCustomAttribute(propiedad, typeof(RangeAttribute))!;
-            var valor = (int)propiedad.GetValue(obj)!;
-            var minimo = (int)atributoRange.Minimum;
-            var maximo = (int)atributoRange.Maximum;
-            var esValido = valor >= minimo && valor <= maximo;
-            if (!esValido)
-            {
-                resultado.Add(new ErrorValidacion
-                {
-                    Propiedad = propiedad.Name,
-                    MensajeDeError = $"El valor debe estar entre {minimo} y {maximo}"
-                });
-            }
+            continue;
         }
-
     }
-        return resultado;
+
+    Console.WriteLine(accion);
 }
